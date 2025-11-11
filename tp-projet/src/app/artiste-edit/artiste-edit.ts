@@ -33,6 +33,11 @@ export class ArtisteEdit implements OnInit{
   updateArtist():void {
     if (!this.artiste) return;
 
+    if((this.artiste.label).length < 3 ) {
+      alert("Le label doit contenir au minimum 3 lettres")
+      return;
+    }
+
     this.artisteService.updateArtist(this.artiste.id, this.artiste).subscribe({
       next: () => {
         alert('Artiste mis à jour avec succès');

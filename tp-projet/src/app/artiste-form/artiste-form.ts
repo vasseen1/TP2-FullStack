@@ -24,13 +24,18 @@ export class ArtisteForm {
   ) {}
 
   createArtist(): void {
+
+    if((this.artiste.label).length < 3 ) {
+      alert("Le label doit contenir au minimum 3 lettres")
+      return;
+    }
     
     this.artistService.createArtist(this.artiste).subscribe({
       next: (createdArtist) => {
-        alert('Evenement crée avec succés !');
+        alert('Artiste crée avec succés !');
         this.router.navigate([`/artistes/${createdArtist.id}`]);
       },
-      error : (err) => console.error('Erreur lors de la création de l\'évènement : ', err)
+      error : (err) => console.error('Erreur lors de la création de l\'artiste : ', err)
     });
   }
   
