@@ -1,3 +1,13 @@
+<!-- Notification flottante -->
+<div *ngIf="notificationMessage"
+     [ngClass]="{
+       'notif-success': notificationType === 'success',
+       'notif-error': notificationType === 'error'
+     }"
+     class="notification fade">
+  {{ notificationMessage }}
+</div>
+
 <div *ngIf="artiste; else noEvent">
     <p>{{artiste.label}}</p>
     <a [routerLink]="['edit']">

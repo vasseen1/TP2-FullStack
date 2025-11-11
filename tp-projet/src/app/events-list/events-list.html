@@ -1,6 +1,7 @@
 <div *ngFor="let event of events ">
+    <p>{{event.label}}</p>
     <a [routerLink]="[event.id]">
-        <p>{{event.label}}</p>
+        <p>Voir détails</p>
     </a>
 </div>
 

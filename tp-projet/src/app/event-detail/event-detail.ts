@@ -10,9 +10,11 @@ import { EventsService, Events } from '../Services/events-service';
   templateUrl: './event-detail.html',
   styleUrls: ['./event-detail.css'],
 })
-export class EventDetail implements OnInit{
+export class EventDetail implements OnInit {
 
   evenement?: Events;
+  notificationMessage = '';
+  notificationType: 'success' | 'error' | '' = '';
 
   constructor(
     private eventService: EventsService,
@@ -23,29 +25,50 @@ export class EventDetail implements OnInit{
   ngOnInit(): void {
     const id = String(this.route.snapshot.paramMap.get('id'));
 
-    // Récupère l'évènement
     this.eventService.getEventById(id).subscribe({
       next: (evenement: Events) => {
         this.evenement = evenement;
       },
       error: (err) => {
         console.error('Erreur lors de la récupération de l\'évènement :', err);
+        this.showNotification('Impossible de charger l\'évènement.', 'error');
       }
     });
   }
 
-  supprimerEvent():void {
-
-      if (!this.evenement) {
-        console.error("Aucun Evenement chargé !");
-        return;
-      }
-
-      if (confirm('Es-tu sûr?')) {
-        this.eventService.deleteEvent(this.evenement.id).subscribe(() => {
-          alert('Event supprimé avec succès');
-          this.router.navigate(['/']);
-        })
-      }
+  supprimerEvent(): void {
+    if (!this.evenement) {
+      this.showNotification("Aucun évènement chargé !", 'error');
+      return;
     }
+
+    const confirmation = confirm(`Es-tu sûr de vouloir supprimer "${this.evenement.label}" ?`);
+    if (!confirmation) {
+      this.showNotification("Suppression annulée", 'error');
+      return;
+    }
+
+    this.eventService.deleteEvent(this.evenement.id).subscribe({
+      next: () => {
+        this.showNotification('Évènement supprimé avec succès', 'success');
+        setTimeout(() => {
+          this.router.navigate(['/']);
+        }, 2000);
+      },
+      error: (err) => {
+        console.error('Erreur lors de la suppression :', err);
+        this.showNotification('Une erreur est survenue lors de la suppression', 'error');
+      }
+    });
+  }
+
+  private showNotification(message: string, type: 'success' | 'error'): void {
+    this.notificationMessage = message;
+    this.notificationType = type;
+
+    setTimeout(() => {
+      this.notificationMessage = '';
+      this.notificationType = '';
+    }, 3000);
+  }
 }

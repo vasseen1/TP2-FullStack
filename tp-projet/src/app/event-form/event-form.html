@@ -1,3 +1,11 @@
+<div *ngIf="notificationMessage" 
+     [ngClass]="{
+       'notif-success': notificationType === 'success',
+       'notif-error': notificationType === 'error'
+     }"
+     class="notification fade">
+  {{ notificationMessage }}
+</div>
 <div class="ajouter" >
   <h2>Ajouter un évènement : </h2>
 

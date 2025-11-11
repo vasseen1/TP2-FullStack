@@ -13,6 +13,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class EventEdit implements OnInit {
   event?: Events;
+  notificationMessage = '';
+  notificationType: 'success' | 'error' | '' = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -23,37 +25,63 @@ export class EventEdit implements OnInit {
   ngOnInit(): void {
     const id = String(this.route.snapshot.paramMap.get('id'));
 
-    this.eventService.getEventById(id).subscribe(evenement => {
-      this.event = evenement;
+    this.eventService.getEventById(id).subscribe({
+      next: (evenement: Events) => {
+        this.event = evenement;
+      },
+      error: (err) => {
+        console.error('Erreur lors de la récupération de l\'évènement :', err);
+        this.showNotification('Impossible de charger l\'évènement.', 'error');
+      }
     });
   }
 
   updateEvent():void {
-    if (!this.event) return;
+    if (!this.event) {
+      this.showNotification("Aucun évènement chargé !", 'error');
+      return;
+    } 
 
-    if((this.event.label).length < 3 ) {
-      alert("Le label doit contenir au minimum 3 lettres")
+    if ((this.event.label).length < 3) {
+      this.showNotification('Le label doit contenir au minimum 3 lettres', 'error');
       return;
     }
 
-    if ((this.event.startDate) == null || (this.event.endDate) == null) {
-      alert("Les dates doivent être rentrées");
+    if (!this.event.startDate || !this.event.endDate) {
+      this.showNotification('Les dates doivent être rentrées', 'error');
       return;
     }
 
-    if(new Date(this.event.startDate) > new Date(this.event.endDate)) {
-      alert("Erreur dans les dates : La date de début doit être avant ou égale à celle de fin");
+    if (new Date(this.event.startDate) > new Date(this.event.endDate)) {
+      this.showNotification('Erreur dans les dates : La date de début doit être avant ou égale à celle de fin', 'error');
       return;
     }
 
 
     this.eventService.updateEvent(this.event.id, this.event).subscribe({
       next: () => {
-        alert('Evenement mis à jour avec succès');
-        this.router.navigate([`/events/${this.event?.id}`]);
+        this.showNotification('Evenement mis à jour avec succès', 'success');
+        // Redirection après 2 secondes
+        setTimeout(() => {
+          this.router.navigate([`/events/${this.event?.id}`]);     
+        }, 2000); 
       },
-      error: (err) => console.error('Erreur lors de la mise à jour de l\'évènement : ', err),
+      error: (err) => {
+        console.error('Erreur lors de la mise à jour de l\'évènement : ', err);
+        this.showNotification('Une erreur est survenue lors de la mise à jour', 'error');
+      }
     });
+  }
+
+  private showNotification(message: string, type: 'success' | 'error'): void {
+    this.notificationMessage = message;
+    this.notificationType = type;
+
+    // On efface la notification après 3 secondes
+    setTimeout(() => {
+      this.notificationMessage = '';
+      this.notificationType = '';
+    }, 3000);
   }
 
 }

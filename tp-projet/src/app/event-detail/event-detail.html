@@ -1,20 +1,29 @@
+<!-- Notification flottante -->
+<div *ngIf="notificationMessage"
+     [ngClass]="{
+       'notif-success': notificationType === 'success',
+       'notif-error': notificationType === 'error'
+     }"
+     class="notification fade">
+  {{ notificationMessage }}
+</div>
+
 <div *ngIf="evenement; else noEvent">
-    <p>{{evenement.label}}</p>
-    <p>{{evenement.startDate}}</p>
-    <p>{{evenement.endDate}}</p>
-    <a [routerLink]="['edit']">
-        <div>
-            <p>Modifier l'évènement</p>
-        </div>
-    </a>
-    <button class="supprimer" (click)="supprimerEvent()">
-        Supprimer l'évènement
-    </button>
+  <p>{{ evenement.label }}</p>
+  <p>{{ evenement.startDate }}</p>
+  <p>{{ evenement.endDate }}</p>
+
+  <a [routerLink]="['edit']">
+    <div>
+      <p>Modifier l'évènement</p>
+    </div>
+  </a>
+
+  <button class="supprimer" (click)="supprimerEvent()">
+    Supprimer l'évènement
+  </button>
 </div>
 
 <ng-template #noEvent>
-    <p>Il n'y a pas d'evenements dispo à cet identifiant</p>
+  <p>Il n'y a pas d'évènement disponible à cet identifiant</p>
 </ng-template>
-
-
-

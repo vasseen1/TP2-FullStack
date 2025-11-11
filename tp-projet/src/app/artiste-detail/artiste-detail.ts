@@ -13,6 +13,9 @@ import { Artiste, ArtisteService } from '../Services/artiste-service';
 export class ArtistsDetail implements OnInit{
 
   artiste?: Artiste;
+  notificationMessage = '';
+  notificationType: 'success' | 'error' | '' = '';
+
 
   constructor(
     private artistService: ArtisteService,
@@ -29,23 +32,46 @@ export class ArtistsDetail implements OnInit{
       },
       error : (err) => {
         console.error('Erreur lors de la récupération de l\'Artiste : ', err);
+        this.showNotification('Impossible de charger l\'Artiste.', 'error');
       }
     })
   }
 
   supprimerArtist():void {
 
-      if (!this.artiste) {
-        console.error("Aucun Artiste chargé !");
-        return;
-      }
-
-      if (confirm('Es-tu sûr?')) {
-        this.artistService.deleteArtist(this.artiste.id).subscribe(() => {
-          alert('Artiste supprimé avec succès');
-          this.router.navigate(['/']);
-        })
-      }
+    if (!this.artiste) {
+      this.showNotification("Aucun Artiste chargé !", 'error');
+      return;
     }
+
+    const confirmation = confirm(`Es-tu sûr de vouloir supprimer "${this.artiste.label}" ?`);
+    if (!confirmation) {
+      this.showNotification("Suppression annulée", 'error');
+      return;
+    }
+
+    this.artistService.deleteArtist(this.artiste.id).subscribe( {
+      next: () => {
+        this.showNotification('Artiste supprimé avec succès', 'success');
+        setTimeout(() => {
+          this.router.navigate(['/']);
+        }, 2000);
+      },
+      error: (err) => {
+        console.error('Erreur lors de la suppression :', err);
+        this.showNotification('Une erreur est survenue lors de la suppression', 'error');
+      }
+    })
+  }
+
+  private showNotification(message: string, type: 'success' | 'error'): void {
+    this.notificationMessage = message;
+    this.notificationType = type;
+
+    setTimeout(() => {
+      this.notificationMessage = '';
+      this.notificationType = '';
+    }, 3000);
+  }
 
 }

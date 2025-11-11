@@ -18,6 +18,9 @@ export class ArtisteForm {
     label: '',
   };
 
+  notificationMessage = '';
+  notificationType: 'success' | 'error' | '' = '';
+
   constructor(
     private router: Router,
     private artistService: ArtisteService
@@ -26,17 +29,35 @@ export class ArtisteForm {
   createArtist(): void {
 
     if((this.artiste.label).length < 3 ) {
-      alert("Le label doit contenir au minimum 3 lettres")
+      this.showNotification('Le label doit contenir au minimum 3 caractères', 'error');
       return;
     }
     
     this.artistService.createArtist(this.artiste).subscribe({
       next: (createdArtist) => {
-        alert('Artiste crée avec succés !');
-        this.router.navigate([`/artistes/${createdArtist.id}`]);
+        this.showNotification('Artiste crée avec succés !', 'success');
+        setTimeout(() => {
+           this.router.navigate([`/artistes/${createdArtist.id}`]);
+        }, 2000);
+       
       },
-      error : (err) => console.error('Erreur lors de la création de l\'artiste : ', err)
+      error : (err) => {
+        console.error('Erreur lors de la création de l\'artiste : ', err);
+        this.showNotification('Une erreur est survenue lors de la création', 'error');
+      }
+
     });
+  }
+
+  private showNotification(message: string, type: 'success' | 'error'): void {
+    this.notificationMessage = message;
+    this.notificationType = type;
+
+    // On efface la notification après 3 secondes
+    setTimeout(() => {
+      this.notificationMessage = '';
+      this.notificationType = '';
+    }, 3000);
   }
   
   
