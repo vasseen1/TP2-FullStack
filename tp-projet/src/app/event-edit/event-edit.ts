@@ -31,6 +31,11 @@ export class EventEdit implements OnInit {
   updateEvent():void {
     if (!this.event) return;
 
+    if((this.event.label).length < 3 ) {
+      alert("Le label doit contenir au minimum 3 lettres")
+      return;
+    }
+
     if ((this.event.startDate) == null || (this.event.endDate) == null) {
       alert("Les dates doivent être rentrées");
       return;
@@ -41,10 +46,6 @@ export class EventEdit implements OnInit {
       return;
     }
 
-    if((this.event.label).length < 3 ) {
-      alert("Le label doit contenir au minimum 3 lettres")
-      return;
-    }
 
     this.eventService.updateEvent(this.event.id, this.event).subscribe({
       next: () => {

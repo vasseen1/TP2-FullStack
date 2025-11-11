@@ -27,7 +27,12 @@ export class EventForm{
   ) {}
 
   createEvent(): void {
-    
+
+    if((this.event.label).length < 3 ) {
+      alert("Le label doit contenir au minimum 3 lettres")
+      return;
+    }
+
     if ((this.event.startDate) == null || (this.event.endDate) == null) {
       alert("Les dates doivent être rentrées");
       return;
@@ -35,11 +40,6 @@ export class EventForm{
 
     if(new Date(this.event.startDate) > new Date(this.event.endDate)) {
       alert("Erreur dans les dates : La date de début doit être avant ou égale à celle de fin");
-      return;
-    }
-
-    if((this.event.label).length < 3 ) {
-      alert("Le label doit contenir au minimum 3 lettres")
       return;
     }
 
