@@ -1,0 +1,12 @@
+<div class="modifier">
+  <h2>Ajouter un artiste : </h2>
+
+  <form (ngSubmit)="createArtist()">
+    <div class="form-group">
+      <label>Label : </label>
+      <input type="text" [(ngModel)]="artiste.label" name="label" />
+    </div>
+
+    <button type="submit" class="submit-btn">Enregistrer</button>
+  </form>
+</div>

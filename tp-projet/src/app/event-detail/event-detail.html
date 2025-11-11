@@ -1,1 +1,20 @@
-<p>event-detail works!</p>
+<div *ngIf="evenement; else noEvent">
+    <p>{{evenement.label}}</p>
+    <p>{{evenement.startDate}}</p>
+    <p>{{evenement.endDate}}</p>
+    <a [routerLink]="['edit']">
+        <div>
+            <p>Modifier l'évènement</p>
+        </div>
+    </a>
+    <button class="supprimer" (click)="supprimerManga()">
+        Supprimer l'évènement
+    </button>
+</div>
+
+<ng-template #noEvent>
+    <p>Il n'y a pas d'evenements dispo à cet identifiant</p>
+</ng-template>
+
+
+

@@ -28,4 +28,22 @@ export class EventsService {
     return this.http.get< {content: Events[]}>(`${this.baseUrl}/events`)
     .pipe(map(response => response.content));
   }
+
+  getEventById(eventId: string): Observable<Events> {
+    return this.http.get<Events>(`${this.baseUrl}/events/${eventId}`);
+  }
+
+  createEvent(event: Events): Observable<Events> {
+    return this.http.post<Events>(`${this.baseUrl}/events`,event);
+  }
+
+  updateEvent(eventId: string, evenement: Events): Observable<Events>{
+    return this.http.put<Events>(`${this.baseUrl}/events/${eventId}`,evenement);
+  }
+
+  deleteEvent(eventId: string) {
+    return this.http.delete(`${this.baseUrl}/events/${eventId}`);
+  }
+
+
 }

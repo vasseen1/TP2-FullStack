@@ -23,4 +23,8 @@ export class ArtisteService {
     return this.http.get< {content: Artiste[]}>(`${this.baseUrl}/artists`)
     .pipe(map(response => response.content));
   }
+
+  createArtist(artist: Artiste): Observable<Artiste> {
+    return this.http.post<Artiste>(`${this.baseUrl}/artists`, artist);
+  }
 }

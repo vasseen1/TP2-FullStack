@@ -1,3 +1,12 @@
 <div *ngFor="let artist of artists">
-    <p>{{artist.label}}</p>
+    <a [routerLink]="[artist.id]">
+        <p>{{artist.label}}</p>
+    </a>
 </div>
+
+<a [routerLink]="['add']">
+    <div class="ajout">
+        <p>Ajouter un artiste</p>
+    </div>
+</a>
+
