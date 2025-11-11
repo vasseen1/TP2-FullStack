@@ -13,6 +13,7 @@ import { EventsService, Events } from '../Services/events-service';
 export class EventDetail implements OnInit{
 
   evenement?: Events;
+
   constructor(
     private eventService: EventsService,
     private route: ActivatedRoute,
@@ -33,7 +34,7 @@ export class EventDetail implements OnInit{
     });
   }
 
-  supprimerManga():void {
+  supprimerEvent():void {
 
       if (!this.evenement) {
         console.error("Aucun Evenement chargé !");

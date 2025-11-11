@@ -1,1 +1,18 @@
-<p>artists-detail works!</p>
+<div *ngIf="artiste; else noEvent">
+    <p>{{artiste.label}}</p>
+    <a [routerLink]="['edit']">
+        <div>
+            <p>Modifier l'artiste</p>
+        </div>
+    </a>
+    <button class="supprimer" (click)="supprimerArtist()">
+        Supprimer l'artiste
+    </button>
+</div>
+
+<ng-template #noEvent>
+    <p>Il n'y a pas d'artiste dispo à cet identifiant</p>
+</ng-template>
+
+
+

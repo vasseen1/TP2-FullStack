@@ -24,7 +24,19 @@ export class ArtisteService {
     .pipe(map(response => response.content));
   }
 
+  getArtistById(artistId: string): Observable<Artiste> {
+    return this.http.get<Artiste>(`${this.baseUrl}/artists/${artistId}`)
+  }
+
   createArtist(artist: Artiste): Observable<Artiste> {
     return this.http.post<Artiste>(`${this.baseUrl}/artists`, artist);
+  }
+
+  updateArtist(artistId: string, artist: Artiste): Observable<Artiste> {
+    return this.http.put<Artiste>(`${this.baseUrl}/artists/${artistId}`, artist);
+  }
+
+  deleteArtist(artistId: string): Observable<Artiste> {
+    return this.http.delete<Artiste>(`${this.baseUrl}/artists/${artistId}`)
   }
 }
