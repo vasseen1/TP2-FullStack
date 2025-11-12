@@ -24,6 +24,8 @@ export class EventForm {
   notificationMessage = '';
   notificationType: 'success' | 'error' | '' = '';
 
+  isSubmitting = false;
+
   constructor(
     private router: Router,
     private eventService: EventsService
@@ -45,18 +47,23 @@ export class EventForm {
       return;
     }
 
+    this.isSubmitting = true;
+
     this.eventService.createEvent(this.event).subscribe({
       next: (createdEvent) => {
-        this.showNotification('Évènement créé avec succès', 'success');
+        this.showNotification('Évènement créé avec succès, chargement en cours...', 'success');
+
 
         // Redirection après 2 secondes
         setTimeout(() => {
-          this.router.navigate([`/events/${createdEvent.id}`]);        
+          this.router.navigate([`/events/${createdEvent.id}`]);  
+          this.isSubmitting = false;      
         }, 2000);
       },
       error: (err) => {
         console.error('Erreur lors de la création de l\'évènement : ', err);
         this.showNotification('Une erreur est survenue lors de la création', 'error');
+        this.isSubmitting = false;      
       }
     });
   }

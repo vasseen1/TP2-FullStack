@@ -42,3 +42,35 @@
     transform: translateY(-10px);
   }
 }
+
+/* --- Formulaire --- */
+.form-container {
+  margin-top: 80px; /* pour éviter que la notif masque le haut */
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+input, button {
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+button {
+  background-color: #007bff;
+  border: none;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.submit-btn[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

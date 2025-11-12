@@ -6,9 +6,8 @@
      class="notification fade">
   {{ notificationMessage }}
 </div>
-
-<div class="modifier">
-  <h2>Ajouter un artiste : </h2>
+<div class="ajouter" >
+  <h2>Ajouter un évènement : </h2>
 
   <form (ngSubmit)="createArtist()">
     <div class="form-group">
@@ -16,6 +15,6 @@
       <input type="text" [(ngModel)]="artiste.label" name="label" />
     </div>
 
-    <button type="submit" class="submit-btn">Enregistrer</button>
+    <button type="submit" class="submit-btn" [disabled]="isSubmitting">Enregistrer</button>
   </form>
 </div>

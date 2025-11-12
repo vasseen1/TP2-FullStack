@@ -25,6 +25,6 @@
       <input type="date" [(ngModel)]="event.endDate" name="endDate" />
     </div>
 
-    <button type="submit" class="submit-btn">Enregistrer</button>
+    <button type="submit" class="submit-btn" [disabled]="isSubmitting">Enregistrer</button>
   </form>
 </div>

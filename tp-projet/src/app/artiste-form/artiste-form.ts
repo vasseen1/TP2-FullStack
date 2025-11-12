@@ -21,6 +21,8 @@ export class ArtisteForm {
   notificationMessage = '';
   notificationType: 'success' | 'error' | '' = '';
 
+  isSubmitting = false;
+
   constructor(
     private router: Router,
     private artistService: ArtisteService
@@ -32,18 +34,22 @@ export class ArtisteForm {
       this.showNotification('Le label doit contenir au minimum 3 caractères', 'error');
       return;
     }
+
+    this.isSubmitting = true;
     
     this.artistService.createArtist(this.artiste).subscribe({
       next: (createdArtist) => {
-        this.showNotification('Artiste crée avec succés !', 'success');
+        this.showNotification('Artiste crée avec succés, chargement en cours...', 'success');
         setTimeout(() => {
            this.router.navigate([`/artistes/${createdArtist.id}`]);
+           this.isSubmitting = false; 
         }, 2000);
        
       },
       error : (err) => {
         console.error('Erreur lors de la création de l\'artiste : ', err);
         this.showNotification('Une erreur est survenue lors de la création', 'error');
+        this.isSubmitting = false; 
       }
 
     });
