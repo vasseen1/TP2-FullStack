@@ -2,11 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Artiste, ArtisteService } from '../Services/artiste-service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-artiste-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, FormsModule],
   templateUrl: './artiste-detail.html',
   styleUrl: './artiste-detail.css',
 })
@@ -15,6 +16,7 @@ export class ArtistsDetail implements OnInit{
   artiste?: Artiste;
   notificationMessage = '';
   notificationType: 'success' | 'error' | '' = '';
+  isEditing = false;
 
 
   constructor(
@@ -35,6 +37,34 @@ export class ArtistsDetail implements OnInit{
         this.showNotification('Impossible de charger l\'Artiste.', 'error');
       }
     })
+  }
+
+  editArtist() {
+    this.isEditing = true;
+  }
+
+  saveArtist() {
+    if (!this.artiste) {
+      this.showNotification("Aucun artiste chargé !", 'error');
+      return;
+    }
+
+    if ((this.artiste.label).length < 3) {
+      this.showNotification('Le label doit contenir au minimum 3 lettres', 'error');
+      return;
+    }
+
+    this.artistService.updateArtist(this.artiste.id, this.artiste).subscribe({
+      next: (updatedArtist) => {
+        this.artiste = updatedArtist;
+        this.isEditing = false;
+        this.showNotification("Artiste mis à jour",'success')
+      },
+      error: () => {
+        this.notificationMessage = "Erreur lors de la mise à jour";
+        this.notificationType = "error";
+      },
+    });
   }
 
   supprimerArtist():void {

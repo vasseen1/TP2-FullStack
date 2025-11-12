@@ -8,19 +8,30 @@
   {{ notificationMessage }}
 </div>
 
-<div *ngIf="artiste; else noEvent">
-    <p>{{artiste.label}}</p>
-    <a [routerLink]="['edit']">
-        <div>
-            <p>Modifier l'artiste</p>
-        </div>
-    </a>
-    <button class="supprimer" (click)="supprimerArtist()">
-        Supprimer l'artiste
-    </button>
+<div *ngIf="artiste; else noArtist" class="artist-container">
+    <div class="artist-detail">
+        <h2>Détails de l'artiste</h2>
+        <p><strong>Label : </strong>{{artiste.label}}</p>
+
+        <button class="supprimer" (click)="supprimerArtist()">
+            Supprimer
+        </button>
+    </div>
+    
+
+    <div class="artist-edit">
+    <h2>Modifier l'artiste</h2>
+
+    <label>Label :</label>
+    <input type="text" [(ngModel)]="artiste.label" />
+
+    <div class="edit-actions">
+      <button (click)="saveArtist()">Sauvegarder</button>
+    </div>
+  </div>
 </div>
 
-<ng-template #noEvent>
+<ng-template #noArtist>
     <p>Il n'y a pas d'artiste dispo à cet identifiant</p>
 </ng-template>
 

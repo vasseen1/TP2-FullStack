@@ -1,3 +1,73 @@
+.event-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+  padding: 20px;
+}
+
+.event-details,
+.event-edit {
+  flex: 1;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.event-details h2,
+.event-edit h2 {
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.event-edit label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.event-edit input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  transition: border-color 0.3s ease;
+}
+
+.event-edit input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.edit-actions {
+  margin-top: 10px;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.supprimer {
+  background-color: #dc3545;
+}
+
+.supprimer:hover {
+  background-color: #b02a37;
+}
+
+/* --- Notification --- */
 .notification {
   position: fixed;
   top: 20px;
@@ -11,6 +81,7 @@
   animation: fadeInOut 3s ease-in-out forwards;
 }
 
+/* Couleurs selon le type */
 .notif-success {
   background-color: #28a745;
   color: #fff;
@@ -21,6 +92,7 @@
   color: #fff;
 }
 
+/* Animation de fondu */
 @keyframes fadeInOut {
   0% {
     opacity: 0;
@@ -38,18 +110,4 @@
     opacity: 0;
     transform: translateY(-10px);
   }
-}
-
-.supprimer {
-  background-color: #dc3545;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.supprimer:hover {
-  background-color: #b52a36;
 }
