@@ -1,0 +1,8 @@
+<div *ngIf="notificationService.message$ | async as notif"
+         [ngClass]="{
+           'notif-success': notif.type === 'success',
+           'notif-error': notif.type === 'error'
+         }"
+         class="notification fade">
+    {{ notif.message }}
+</div>

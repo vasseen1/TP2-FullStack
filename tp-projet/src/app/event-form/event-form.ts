@@ -1,17 +1,19 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Events, EventsService } from '../Services/events-service';
 import { Router } from '@angular/router';
+import { NotificationsService } from '../Services/notifications-service';
+import { NotificationComponent } from '../notifications/notifications';
 
 @Component({
   selector: 'app-event-form',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NotificationComponent],
   templateUrl: './event-form.html',
   styleUrls: ['./event-form.css'],
 })
-export class EventForm {
+export class EventForm{
 
   event: Events = {
     id: undefined as any,
@@ -20,15 +22,12 @@ export class EventForm {
     endDate: null as any,
     artists: [],
   };
-
-  notificationMessage = '';
-  notificationType: 'success' | 'error' | '' = '';
-
   isSubmitting = false;
 
   constructor(
     private router: Router,
-    private eventService: EventsService
+    private eventService: EventsService,
+    private notificationService: NotificationsService
   ) {}
 
   createEvent(): void {
@@ -39,29 +38,29 @@ export class EventForm {
     today.setHours(0,0,0,0);
 
     if ((this.event.label).length < 3) {
-      this.showNotification('Le label doit contenir au minimum 3 lettres', 'error');
+      this.notificationService.show('Le label doit contenir au minimum 3 lettres', 'error');
       return;
     }
 
     if (!pattern.test(this.event.label)) {
-      this.showNotification('Le label n\'est pas valide', 'error');
+      this.notificationService.show('Le label n\'est pas valide', 'error');
       return;
     }
 
 
 
     if (!this.event.startDate || !this.event.endDate) {
-      this.showNotification('Les dates doivent être rentrées', 'error');
+      this.notificationService.show('Les dates doivent être rentrées', 'error');
       return;
     }
 
     if (new Date(this.event.startDate) < today) {
-      this.showNotification('La date de début doit être égale ou après la date du jour', 'error');
+      this.notificationService.show('La date de début doit être égale ou après la date du jour', 'error');
       return;
     }
 
     if (new Date(this.event.startDate) > new Date(this.event.endDate)) {
-      this.showNotification('La date de début doit être avant ou égale à celle de fin', 'error');
+      this.notificationService.show('La date de début doit être avant ou égale à celle de fin', 'error');
       return;
     }
 
@@ -69,31 +68,15 @@ export class EventForm {
 
     this.eventService.createEvent(this.event).subscribe({
       next: (createdEvent) => {
-        this.showNotification('Évènement créé avec succès, chargement en cours...', 'success');
-
-
-        // Redirection après 2 secondes
-        setTimeout(() => {
-          this.router.navigate([`/events/${createdEvent.id}`]);  
-          this.isSubmitting = false;      
-        }, 2000);
+        this.notificationService.show('Évènement créé avec succès', 'success');
+        this.router.navigate([`/events/${createdEvent.id}`]);
+        this.isSubmitting = false;
       },
       error: (err) => {
         console.error('Erreur lors de la création de l\'évènement : ', err);
-        this.showNotification('Une erreur est survenue lors de la création', 'error');
+        this.notificationService.show('Une erreur est survenue lors de la création', 'error');
         this.isSubmitting = false;      
       }
     });
-  }
-
-  private showNotification(message: string, type: 'success' | 'error'): void {
-    this.notificationMessage = message;
-    this.notificationType = type;
-
-    // On efface la notification après 3 secondes
-    setTimeout(() => {
-      this.notificationMessage = '';
-      this.notificationType = '';
-    }, 3000);
   }
 }

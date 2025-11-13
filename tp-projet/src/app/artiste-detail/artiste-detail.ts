@@ -3,11 +3,13 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Artiste, ArtisteService } from '../Services/artiste-service';
 import { FormsModule } from '@angular/forms';
+import { NotificationComponent } from '../notifications/notifications';
+import { NotificationsService } from '../Services/notifications-service';
 
 @Component({
   selector: 'app-artiste-detail',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NotificationComponent],
   templateUrl: './artiste-detail.html',
   styleUrl: './artiste-detail.css',
 })
@@ -15,15 +17,15 @@ export class ArtistsDetail implements OnInit{
 
   artiste?: Artiste;
   editedArtiste?: Artiste;
-  notificationMessage = '';
-  notificationType: 'success' | 'error' | '' = '';
+
   isDeleted = false;
 
 
   constructor(
     private artistService: ArtisteService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private notificationService: NotificationsService
   ) {}
 
   ngOnInit(): void {
@@ -36,14 +38,14 @@ export class ArtistsDetail implements OnInit{
       },
       error : (err) => {
         console.error('Erreur lors de la récupération de l\'Artiste : ', err);
-        this.showNotification('Impossible de charger l\'Artiste.', 'error');
+        this.notificationService.show('Impossible de charger l\'Artiste.', 'error');
       }
     })
   }
 
   saveArtist() {
     if (!this.editedArtiste) {
-      this.showNotification("Aucun artiste chargé !", 'error');
+      this.notificationService.show("Aucun artiste chargé !", 'error');
       return;
     }
 
@@ -51,12 +53,12 @@ export class ArtistsDetail implements OnInit{
 
 
     if ((this.editedArtiste.label).length < 3) {
-      this.showNotification('Le label doit contenir au minimum 3 lettres', 'error');
+      this.notificationService.show('Le label doit contenir au minimum 3 lettres', 'error');
       return;
     }
 
     if (!pattern.test(this.editedArtiste.label)) {
-      this.showNotification('Le label n\'est pas valide', 'error');
+      this.notificationService.show('Le label n\'est pas valide', 'error');
       return;
     }
 
@@ -64,11 +66,11 @@ export class ArtistsDetail implements OnInit{
       next: (updatedArtist) => {
         this.artiste = { ...updatedArtist };
         this.editedArtiste = { ...updatedArtist };
-        this.showNotification("Artiste mis à jour",'success')
+        this.notificationService.show("Artiste mis à jour",'success')
       },
       error: (err) => {
         console.error("Erreur lors de la mise à jour : ", err);
-        this.showNotification("Erreur lors de la mise à jour", 'error');
+        this.notificationService.show("Erreur lors de la mise à jour", 'error');
       },
     });
   }
@@ -76,41 +78,29 @@ export class ArtistsDetail implements OnInit{
   supprimerArtist():void {
 
     if (!this.artiste) {
-      this.showNotification("Aucun Artiste chargé !", 'error');
+      this.notificationService.show("Aucun Artiste chargé !", 'error');
       return;
     }
 
     const confirmation = confirm(`Es-tu sûr de vouloir supprimer "${this.artiste.label}" ?`);
     if (!confirmation) {
-      this.showNotification("Suppression annulée", 'error');
+      this.notificationService.show("Suppression annulée", 'error');
       return;
     }
 
     this.isDeleted = true;
     this.artistService.deleteArtist(this.artiste.id).subscribe( {
       next: () => {
-        this.showNotification('Artiste supprimé avec succès', 'success');
-        setTimeout(() => {
-          this.router.navigate(['/']);
-          this.isDeleted = false;
-        }, 2000);
+        this.notificationService.show('Artiste supprimé avec succès', 'success');
+        this.router.navigate(['/artistes']);
+        this.isDeleted = false;
       },
       error: (err) => {
         console.error('Erreur lors de la suppression :', err);
-        this.showNotification('Une erreur est survenue lors de la suppression', 'error');
+        this.notificationService.show('Une erreur est survenue lors de la suppression', 'error');
         this.isDeleted = false;
       }
     })
-  }
-
-  private showNotification(message: string, type: 'success' | 'error'): void {
-    this.notificationMessage = message;
-    this.notificationType = type;
-
-    setTimeout(() => {
-      this.notificationMessage = '';
-      this.notificationType = '';
-    }, 3000);
   }
 
 }

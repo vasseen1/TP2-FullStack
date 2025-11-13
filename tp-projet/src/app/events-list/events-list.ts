@@ -2,11 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Events, EventsService } from '../Services/events-service';
+import { NotificationComponent } from '../notifications/notifications';
 
 @Component({
   selector: 'app-events-list',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, NotificationComponent],
   templateUrl: './events-list.html',
   styleUrl: './events-list.css',
 })

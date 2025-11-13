@@ -3,11 +3,13 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Artiste, ArtisteService } from '../Services/artiste-service';
 import { Router } from '@angular/router';
+import { NotificationComponent } from '../notifications/notifications';
+import { NotificationsService } from '../Services/notifications-service';
 
 @Component({
   selector: 'app-artiste-form',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NotificationComponent],
   templateUrl: './artiste-form.html',
   styleUrl: './artiste-form.css',
 })
@@ -18,14 +20,12 @@ export class ArtisteForm {
     label: '',
   };
 
-  notificationMessage = '';
-  notificationType: 'success' | 'error' | '' = '';
-
   isSubmitting = false;
 
   constructor(
     private router: Router,
-    private artistService: ArtisteService
+    private artistService: ArtisteService,
+    private notificationService: NotificationsService
   ) {}
 
   createArtist(): void {
@@ -34,12 +34,12 @@ export class ArtisteForm {
 
 
     if((this.artiste.label).length < 3 ) {
-      this.showNotification('Le label doit contenir au minimum 3 caractères', 'error');
+      this.notificationService.show('Le label doit contenir au minimum 3 caractères', 'error');
       return;
     }
 
     if (!pattern.test(this.artiste.label)) {
-      this.showNotification('Le label n\'est pas valide', 'error');
+      this.notificationService.show('Le label n\'est pas valide', 'error');
       return;
     }
 
@@ -47,33 +47,18 @@ export class ArtisteForm {
     
     this.artistService.createArtist(this.artiste).subscribe({
       next: (createdArtist) => {
-        this.showNotification('Artiste crée avec succés, chargement en cours...', 'success');
-        setTimeout(() => {
-           this.router.navigate([`/artistes/${createdArtist.id}`]);
-           this.isSubmitting = false; 
-        }, 2000);
+        this.notificationService.show('Artiste crée avec succés', 'success');
+        this.router.navigate([`/artistes/${createdArtist.id}`]);
+        this.isSubmitting = false; 
        
       },
       error : (err) => {
         console.error('Erreur lors de la création de l\'artiste : ', err);
-        this.showNotification('Une erreur est survenue lors de la création', 'error');
+        this.notificationService.show('Une erreur est survenue lors de la création', 'error');
         this.isSubmitting = false; 
       }
 
     });
   }
-
-  private showNotification(message: string, type: 'success' | 'error'): void {
-    this.notificationMessage = message;
-    this.notificationType = type;
-
-    // On efface la notification après 3 secondes
-    setTimeout(() => {
-      this.notificationMessage = '';
-      this.notificationType = '';
-    }, 3000);
-  }
-  
-  
 
 }

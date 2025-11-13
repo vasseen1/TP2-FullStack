@@ -1,14 +1,4 @@
-<!-- Notification -->
-<div
-  *ngIf="notificationMessage"
-  [ngClass]="{
-    'notif-success': notificationType === 'success',
-    'notif-error': notificationType === 'error'
-  }"
-  class="notification fade"
->
-  {{ notificationMessage }}
-</div>
+<app-notification></app-notification>
 
 <div *ngIf="evenement; else noEvent" class="event-container">
   <!-- Partie gauche : affichage -->

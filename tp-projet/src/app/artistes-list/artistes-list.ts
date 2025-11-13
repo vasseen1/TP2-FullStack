@@ -2,11 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Artiste, ArtisteService } from '../Services/artiste-service';
+import { NotificationComponent } from '../notifications/notifications';
 
 @Component({
   selector: 'app-artistes-list',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, NotificationComponent],
   templateUrl: './artistes-list.html',
   styleUrl: './artistes-list.css',
 })
