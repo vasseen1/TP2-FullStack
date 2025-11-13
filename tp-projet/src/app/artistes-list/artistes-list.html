@@ -1,13 +1,20 @@
-<div *ngFor="let artist of artists">
-    <p>{{artist.label}}</p>
-    <a [routerLink]="[artist.id]">
-        <p>Voir détails</p>
-    </a>
+<div class="artists-container">
+  <div class="artist-card" *ngFor="let artist of paginatedArtists">
+    <h3>{{ artist.label }}</h3>
+    <a [routerLink]="[artist.id]" class="details-btn">Voir détails</a>
+  </div>
 </div>
 
-<a [routerLink]="['add']">
-    <div class="ajout">
-        <p>Ajouter un artiste</p>
-    </div>
-</a>
+<!-- Pagination -->
+<div class="pagination" *ngIf="totalPages > 1">
+  <button (click)="previousPage()" [disabled]="currentPage === 1">◀ Précédent</button>
+  <span>Page {{ currentPage }} / {{ totalPages }}</span>
+  <button (click)="nextPage()" [disabled]="currentPage === totalPages">Suivant ▶</button>
+</div>
 
+<!-- Ajouter un artiste -->
+<a [routerLink]="['add']">
+  <div class="add-artist">
+    <p> Ajouter un artiste</p>
+  </div>
+</a>

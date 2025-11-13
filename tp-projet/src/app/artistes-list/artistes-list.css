@@ -1,0 +1,97 @@
+/* Conteneur principal */
+.artists-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* Carte artiste */
+.artist-card {
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  padding: 20px;
+  width: 280px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.artist-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.artist-card h3 {
+  margin-top: 0;
+  font-size: 1.4rem;
+  color: #333;
+}
+
+.artist-card p {
+  margin: 5px 0;
+  color: #555;
+}
+
+/* Bouton détails */
+.details-btn {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 8px 14px;
+  background-color: #007bff;
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.details-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin: 25px 0;
+  font-size: 1.1rem;
+}
+
+.pagination button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.pagination button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.pagination button:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+/* Bouton ajouter artiste */
+.add-artist {
+  text-align: center;
+  background-color: #28a745;
+  color: white;
+  padding: 15px 25px;
+  border-radius: 12px;
+  margin: 30px auto;
+  width: 250px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.add-artist:hover {
+  background-color: #218838;
+  transform: translateY(-3px);
+}

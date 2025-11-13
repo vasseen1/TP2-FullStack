@@ -32,18 +32,36 @@ export class EventForm {
   ) {}
 
   createEvent(): void {
+
+    const pattern = /^[A-Za-zÀ-ÖØ-öø-ÿ][A-Za-zÀ-ÖØ-öø-ÿ0-9 -]*$/;
+    const today = new Date();
+
+    today.setHours(0,0,0,0);
+
     if ((this.event.label).length < 3) {
       this.showNotification('Le label doit contenir au minimum 3 lettres', 'error');
       return;
     }
+
+    if (!pattern.test(this.event.label)) {
+      this.showNotification('Le label n\'est pas valide', 'error');
+      return;
+    }
+
+
 
     if (!this.event.startDate || !this.event.endDate) {
       this.showNotification('Les dates doivent être rentrées', 'error');
       return;
     }
 
+    if (new Date(this.event.startDate) < today) {
+      this.showNotification('La date de début doit être égale ou après la date du jour', 'error');
+      return;
+    }
+
     if (new Date(this.event.startDate) > new Date(this.event.endDate)) {
-      this.showNotification('Erreur dans les dates : La date de début doit être avant ou égale à celle de fin', 'error');
+      this.showNotification('La date de début doit être avant ou égale à celle de fin', 'error');
       return;
     }
 

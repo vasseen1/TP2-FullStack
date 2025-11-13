@@ -1,4 +1,4 @@
-<!-- Notification flottante -->
+<!-- Notification -->
 <div
   *ngIf="notificationMessage"
   [ngClass]="{
@@ -11,26 +11,28 @@
 </div>
 
 <div *ngIf="evenement; else noEvent" class="event-container">
+  <!-- Partie gauche : affichage -->
   <div class="event-details">
     <h2>Détails de l'évènement</h2>
     <p><strong>Label :</strong> {{ evenement.label }}</p>
     <p><strong>Début :</strong> {{ evenement.startDate | date }}</p>
     <p><strong>Fin :</strong> {{ evenement.endDate | date }}</p>
 
-    <button (click)="supprimerEvent()" class="supprimer">Supprimer</button>
+    <button (click)="supprimerEvent()" class="supprimer" [disabled]="isDeleted">Supprimer</button>
   </div>
 
-  <div class="event-edit">
+  <!-- Partie droite : édition -->
+  <div class="event-edit" *ngIf="editedEvent">
     <h2>Modifier l'évènement</h2>
 
     <label>Label :</label>
-    <input type="text" [(ngModel)]="evenement.label" />
+    <input type="text" [(ngModel)]="editedEvent.label" />
 
     <label>Date de début :</label>
-    <input type="date" [(ngModel)]="evenement.startDate" />
+    <input type="date" [(ngModel)]="editedEvent.startDate" />
 
     <label>Date de fin :</label>
-    <input type="date" [(ngModel)]="evenement.endDate" />
+    <input type="date" [(ngModel)]="editedEvent.endDate" />
 
     <div class="edit-actions">
       <button (click)="saveEvent()">Sauvegarder</button>

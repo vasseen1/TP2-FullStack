@@ -1,0 +1,22 @@
+header {
+  background-color: #1e1e1e; /* Couleur de fond douce et moderne */
+  padding: 20px 0;
+  text-align: center; /* Centre le contenu horizontalement */
+}
+
+header div {
+  display: inline-block; /* Centre le bloc au milieu */
+}
+
+header a {
+  font-size: 1.3rem; /* ✅ Texte plus grand */
+  color: #f5f5f5; /* Couleur claire pour contraster avec le fond */
+  text-decoration: none; /* ✅ Supprime le soulignement */
+  margin: 0 15px; /* Espacement entre les liens */
+  transition: color 0.3s ease, transform 0.2s ease; /* Animation fluide */
+}
+
+header a:hover {
+  color: #ffcc00; /* Couleur dorée au survol ✨ */
+  transform: scale(1.1); /* Léger zoom sur le texte */
+}
