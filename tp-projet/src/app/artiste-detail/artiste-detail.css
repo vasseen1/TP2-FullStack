@@ -111,3 +111,8 @@ button:hover {
     transform: translateY(-10px);
   }
 }
+
+.supprimer[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

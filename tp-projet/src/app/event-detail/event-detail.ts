@@ -45,7 +45,10 @@ export class EventDetail implements OnInit {
     const today = new Date();
     today.setHours(0,0,0,0);
 
-    if (!this.editedEvent) return;
+    if (!this.editedEvent) {
+      this.showNotification("Aucun énèmenent chargé !", 'error');
+      return;
+    }
 
     if ((this.editedEvent.label || '').length < 3) {
       this.showNotification('Le label doit contenir au minimum 3 lettres', 'error');
@@ -78,14 +81,18 @@ export class EventDetail implements OnInit {
         this.editedEvent = { ...updatedEvent };
         this.showNotification('Évènement mis à jour avec succès', 'success');
       },
-      error: () => {
+      error: (err) => {
+        console.error("Erreur lors de la mise à jour : ", err);
         this.showNotification('Erreur lors de la mise à jour', 'error');
       },
     });
   }
 
   supprimerEvent(): void {
-    if (!this.evenement) return;
+    if (!this.evenement) {
+      this.showNotification("Aucun évènement chargé !", 'error');
+      return;
+    }
 
     const confirmation = confirm(`Supprimer "${this.evenement.label}" ?`);
     if (!confirmation) {

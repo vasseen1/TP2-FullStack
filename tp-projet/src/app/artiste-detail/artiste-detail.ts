@@ -14,9 +14,10 @@ import { FormsModule } from '@angular/forms';
 export class ArtistsDetail implements OnInit{
 
   artiste?: Artiste;
+  editedArtiste?: Artiste;
   notificationMessage = '';
   notificationType: 'success' | 'error' | '' = '';
-  isEditing = false;
+  isDeleted = false;
 
 
   constructor(
@@ -31,6 +32,7 @@ export class ArtistsDetail implements OnInit{
     this.artistService.getArtistById(id).subscribe({
       next: (artiste: Artiste) => {
         this.artiste = artiste;
+        this.editedArtiste = { ...artiste };
       },
       error : (err) => {
         console.error('Erreur lors de la récupération de l\'Artiste : ', err);
@@ -39,30 +41,34 @@ export class ArtistsDetail implements OnInit{
     })
   }
 
-  editArtist() {
-    this.isEditing = true;
-  }
-
   saveArtist() {
-    if (!this.artiste) {
+    if (!this.editedArtiste) {
       this.showNotification("Aucun artiste chargé !", 'error');
       return;
     }
 
-    if ((this.artiste.label).length < 3) {
+    const pattern = /^[A-Za-zÀ-ÖØ-öø-ÿ][A-Za-zÀ-ÖØ-öø-ÿ0-9 -]*$/;
+
+
+    if ((this.editedArtiste.label).length < 3) {
       this.showNotification('Le label doit contenir au minimum 3 lettres', 'error');
       return;
     }
 
-    this.artistService.updateArtist(this.artiste.id, this.artiste).subscribe({
+    if (!pattern.test(this.editedArtiste.label)) {
+      this.showNotification('Le label n\'est pas valide', 'error');
+      return;
+    }
+
+    this.artistService.updateArtist(this.editedArtiste.id, this.editedArtiste).subscribe({
       next: (updatedArtist) => {
-        this.artiste = updatedArtist;
-        this.isEditing = false;
+        this.artiste = { ...updatedArtist };
+        this.editedArtiste = { ...updatedArtist };
         this.showNotification("Artiste mis à jour",'success')
       },
-      error: () => {
-        this.notificationMessage = "Erreur lors de la mise à jour";
-        this.notificationType = "error";
+      error: (err) => {
+        console.error("Erreur lors de la mise à jour : ", err);
+        this.showNotification("Erreur lors de la mise à jour", 'error');
       },
     });
   }
@@ -80,16 +86,19 @@ export class ArtistsDetail implements OnInit{
       return;
     }
 
+    this.isDeleted = true;
     this.artistService.deleteArtist(this.artiste.id).subscribe( {
       next: () => {
         this.showNotification('Artiste supprimé avec succès', 'success');
         setTimeout(() => {
           this.router.navigate(['/']);
+          this.isDeleted = false;
         }, 2000);
       },
       error: (err) => {
         console.error('Erreur lors de la suppression :', err);
         this.showNotification('Une erreur est survenue lors de la suppression', 'error');
+        this.isDeleted = false;
       }
     })
   }

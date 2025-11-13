@@ -30,8 +30,16 @@ export class ArtisteForm {
 
   createArtist(): void {
 
+    const pattern = /^[A-Za-zÀ-ÖØ-öø-ÿ][A-Za-zÀ-ÖØ-öø-ÿ0-9 -]*$/;
+
+
     if((this.artiste.label).length < 3 ) {
       this.showNotification('Le label doit contenir au minimum 3 caractères', 'error');
+      return;
+    }
+
+    if (!pattern.test(this.artiste.label)) {
+      this.showNotification('Le label n\'est pas valide', 'error');
       return;
     }
 

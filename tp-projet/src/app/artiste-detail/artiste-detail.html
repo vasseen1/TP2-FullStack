@@ -9,21 +9,21 @@
 </div>
 
 <div *ngIf="artiste; else noArtist" class="artist-container">
-    <div class="artist-detail">
+    <div class="artist-details">
         <h2>Détails de l'artiste</h2>
         <p><strong>Label : </strong>{{artiste.label}}</p>
 
-        <button class="supprimer" (click)="supprimerArtist()">
+        <button class="supprimer" (click)="supprimerArtist()" [disabled]="isDeleted">
             Supprimer
         </button>
     </div>
     
 
-    <div class="artist-edit">
+    <div class="artist-edit" *ngIf="editedArtiste">
     <h2>Modifier l'artiste</h2>
 
     <label>Label :</label>
-    <input type="text" [(ngModel)]="artiste.label" />
+    <input type="text" [(ngModel)]="editedArtiste.label" />
 
     <div class="edit-actions">
       <button (click)="saveArtist()">Sauvegarder</button>

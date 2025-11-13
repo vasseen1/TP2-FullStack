@@ -12,7 +12,7 @@
   <form (ngSubmit)="createArtist()">
     <div class="form-group">
       <label>Label : </label>
-      <input type="text" [(ngModel)]="artiste.label" name="label" />
+      <input type="text" [(ngModel)]="artiste.label" name="label" placeholder="Mon Artiste"/>
     </div>
 
     <button type="submit" class="submit-btn" [disabled]="isSubmitting">Enregistrer</button>
