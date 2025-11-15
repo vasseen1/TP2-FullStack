@@ -16,7 +16,7 @@ export class EventsList implements OnInit {
   paginatedEvents: Events[] = [];
 
   currentPage: number = 1;
-  itemsPerPage: number = 4;
+  itemsPerPage: number = 10;
   totalPages: number = 1;
 
   constructor(private eventsService: EventsService) {}

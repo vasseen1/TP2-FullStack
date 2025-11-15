@@ -3,6 +3,11 @@
     <div class="artist-details">
         <h2>Détails de l'artiste</h2>
         <p><strong>Label : </strong>{{artiste.label}}</p>
+        <p><strong>Evenements :</strong></p>
+        <ng-container *ngIf="events | async as events">
+          <p *ngFor="let event of events">{{ event.label }}</p>
+        </ng-container>
+
 
         <button class="supprimer" (click)="supprimerArtist()" [disabled]="isDeleted">
             Supprimer

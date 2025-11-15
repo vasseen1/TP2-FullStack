@@ -3,6 +3,11 @@
 <div class="artists-container">
   <div class="artist-card" *ngFor="let artist of paginatedArtists">
     <h3>{{ artist.label }}</h3>
+    <ng-container *ngIf="getEventsForArtist(artist.id) | async as events">
+      <p><strong>Evenements :</strong></p>
+      <p *ngFor="let ev of events | slice:0:2">{{ ev.label }}</p>
+    </ng-container>
+
     <a [routerLink]="[artist.id]" class="details-btn">Voir détails</a>
   </div>
 </div>

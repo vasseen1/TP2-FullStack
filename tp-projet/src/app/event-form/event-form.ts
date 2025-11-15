@@ -65,6 +65,7 @@ export class EventForm{
     }
 
     this.isSubmitting = true;
+    
 
     this.eventService.createEvent(this.event).subscribe({
       next: (createdEvent) => {

@@ -7,6 +7,8 @@
     <p><strong>Label :</strong> {{ evenement.label }}</p>
     <p><strong>Début :</strong> {{ evenement.startDate | date }}</p>
     <p><strong>Fin :</strong> {{ evenement.endDate | date }}</p>
+    <p><strong>Artistes: </strong></p>
+    <li *ngFor="let artist of evenement.artists">{{artist.label}}</li>
 
     <button (click)="supprimerEvent()" class="supprimer" [disabled]="isDeleted">Supprimer</button>
   </div>

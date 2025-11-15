@@ -5,6 +5,8 @@ import { Artiste, ArtisteService } from '../Services/artiste-service';
 import { FormsModule } from '@angular/forms';
 import { NotificationComponent } from '../notifications/notifications';
 import { NotificationsService } from '../Services/notifications-service';
+import { Events } from '../Services/events-service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-artiste-detail',
@@ -17,6 +19,7 @@ export class ArtistsDetail implements OnInit{
 
   artiste?: Artiste;
   editedArtiste?: Artiste;
+  events?: Observable<Events[]>;
 
   isDeleted = false;
 
@@ -35,6 +38,7 @@ export class ArtistsDetail implements OnInit{
       next: (artiste: Artiste) => {
         this.artiste = artiste;
         this.editedArtiste = { ...artiste };
+        this.events = this.artistService.getEvents(this.artiste.id);
       },
       error : (err) => {
         console.error('Erreur lors de la récupération de l\'Artiste : ', err);
