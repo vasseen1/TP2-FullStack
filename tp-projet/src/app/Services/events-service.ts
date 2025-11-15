@@ -45,5 +45,14 @@ export class EventsService {
     return this.http.delete(`${this.baseUrl}/events/${eventId}`);
   }
 
+  addArtistToEvent(eventId: string, artistId: string) {
+    return this.http.post(`${this.baseUrl}/events/${eventId}/artists/${artistId}`,{});
+  }
+
+  removeArtistFromEvent(eventId: string, artistId: string) {
+    return this.http.delete(`${this.baseUrl}/events/${eventId}/artists/${artistId}`);
+  }
+
+
 
 }
