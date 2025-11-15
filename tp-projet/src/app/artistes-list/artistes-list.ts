@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { Artiste, ArtisteService } from '../Services/artiste-service';
 import { NotificationComponent } from '../notifications/notifications';
 import { Events } from '../Services/events-service';
@@ -26,7 +26,10 @@ export class ArtistesList implements OnInit {
   itemsPerPage: number = 10;
   totalPages: number = 1;
 
-  constructor(private artistService: ArtisteService) {}
+  constructor(
+    private artistService: ArtisteService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.artistService.getAllArtists().subscribe((artists) => {
@@ -36,6 +39,10 @@ export class ArtistesList implements OnInit {
       this.totalPages = Math.ceil(this.artists.length / this.itemsPerPage);
       this.updatePaginatedArtists();
     });
+  }
+
+  navigateToAddArtist(): void {
+    this.router.navigate(['/artistes/add']);
   }
 
   filterArtists(): void {

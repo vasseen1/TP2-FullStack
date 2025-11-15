@@ -31,8 +31,7 @@
 </div>
 
 <!-- Ajouter un artiste -->
-<a [routerLink]="['add']">
-  <div class="add-artist">
-    <p> Ajouter un artiste</p>
-  </div>
-</a>
+<button class="add-artist" (click)="navigateToAddArtist()">
+  Ajouter un artiste
+</button>
+

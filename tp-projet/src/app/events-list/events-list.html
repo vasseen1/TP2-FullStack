@@ -27,8 +27,6 @@
 </div>
 
 <!-- Bouton ajouter -->
-<a [routerLink]="['add']">
-  <div class="add-event">
-    <p>Ajouter un évènement</p>
-  </div>
-</a>
+<button class="add-events" (click)="navigateToAddEvent()">
+  Ajouter un évènement
+</button>

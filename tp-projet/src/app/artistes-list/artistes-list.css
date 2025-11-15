@@ -95,3 +95,7 @@
   background-color: #218838;
   transform: translateY(-3px);
 }
+
+a {
+  text-decoration: none;
+}
