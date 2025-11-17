@@ -1,5 +1,7 @@
 <app-notification></app-notification>
+
 <div *ngIf="artiste; else noArtist" class="artist-container">
+  <!-- conteneur gauche, infos de l'artiste -->
     <div class="artist-details">
         <h2>Détails de l'artiste</h2>
         <p><strong>Label : </strong>{{artiste.label}}</p>
@@ -9,7 +11,8 @@
         </button>
     </div>
     
-
+<!-- conteneur droit, modifications de l'artiste -->
+<!-- L'artiste est mis à jour lorsqu'on appuie sur valider -->
     <div class="artist-edit" *ngIf="editedArtiste">
     <h2>Modifier l'artiste</h2>
 
@@ -22,8 +25,11 @@
   </div>
 </div>
 
+<!-- Si l'artiste est inexistant -->
 <ng-template #noArtist>
+  <div>
     <p>Il n'y a pas d'artiste dispo à cet identifiant</p>
+  </div>
 </ng-template>
 
 

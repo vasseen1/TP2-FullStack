@@ -15,6 +15,7 @@ import { NotificationsService } from '../Services/notifications-service';
 })
 export class ArtistsDetail implements OnInit{
 
+  // Déclaration des variables
   artiste?: Artiste;
   editedArtiste?: Artiste;
 
@@ -29,8 +30,9 @@ export class ArtistsDetail implements OnInit{
   ) {}
 
   ngOnInit(): void {
+    // Récupérer l'id.
     const id = String(this.route.snapshot.paramMap.get('id'));
-
+    // Récupérer l'artiste.
     this.artistService.getArtistById(id).subscribe({
       next: (artiste: Artiste) => {
         this.artiste = artiste;
@@ -44,24 +46,29 @@ export class ArtistsDetail implements OnInit{
   }
 
   saveArtist() {
+    // Verifier si l'artiste existe
     if (!this.editedArtiste) {
       this.notificationService.show("Aucun artiste chargé !", 'error');
       return;
     }
 
+    // Déclaration d'un pattern afin de valider l'entrée de l'artiste
     const pattern = /^[A-Za-zÀ-ÖØ-öø-ÿ][A-Za-zÀ-ÖØ-öø-ÿ0-9 -]*$/;
 
 
+    // Si la taille du nouveau nom est inférieure à 3 caractères
     if ((this.editedArtiste.label).length < 3) {
       this.notificationService.show('Le label doit contenir au minimum 3 lettres', 'error');
       return;
     }
 
+    // Si le nouveau nom ne matche pas avec le pattern
     if (!pattern.test(this.editedArtiste.label)) {
       this.notificationService.show('Le label n\'est pas valide', 'error');
       return;
     }
 
+    // Mise à jour de l'artiste
     this.artistService.updateArtist(this.editedArtiste.id, this.editedArtiste).subscribe({
       next: (updatedArtist) => {
         this.artiste = { ...updatedArtist };
@@ -77,17 +84,22 @@ export class ArtistsDetail implements OnInit{
 
   supprimerArtist():void {
 
+    // Vérifier si l'artiste existe
     if (!this.artiste) {
       this.notificationService.show("Aucun Artiste chargé !", 'error');
       return;
     }
 
+    // afficher un message de confirmation pour la suppression
     const confirmation = confirm(`Es-tu sûr de vouloir supprimer "${this.artiste.label}" ?`);
+
+    // Si on annule
     if (!confirmation) {
       this.notificationService.show("Suppression annulée", 'error');
       return;
     }
 
+    // On supprime l'artiste
     this.isDeleted = true;
     this.artistService.deleteArtist(this.artiste.id).subscribe( {
       next: () => {
