@@ -44,4 +44,12 @@ export class ArtisteService {
   deleteArtist(artistId: string): Observable<Artiste> {
     return this.http.delete<Artiste>(`${this.baseUrl}/artists/${artistId}`)
   }
+
+  addEventToArtiste(artistId: string, eventId: string) {
+    return this.http.post(`${this.baseUrl}/events/${eventId}/artists/${artistId}`,{});
+  }
+
+  removeEventFromArtiste(artistId: string, eventId: string) {
+    return this.http.delete(`${this.baseUrl}/events/${eventId}/artists/${artistId}`);
+  }
 }

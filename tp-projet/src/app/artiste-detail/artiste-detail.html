@@ -16,15 +16,48 @@
     
 
     <div class="artist-edit" *ngIf="editedArtiste">
-    <h2>Modifier l'artiste</h2>
+      <h2>Modifier l'artiste</h2>
 
-    <label>Label :</label>
-    <input type="text" [(ngModel)]="editedArtiste.label" />
+      <label>Label :</label>
+      <input type="text" [(ngModel)]="editedArtiste.label" />
 
-    <div class="edit-actions">
-      <button (click)="saveArtist()">Sauvegarder</button>
+      <div class="edit-actions">
+        <button (click)="saveArtist()">Sauvegarder</button>
+      </div>
+      <div>
+        <h2>Gérer les évènements :</h2>
+
+        <ng-container *ngIf="events | async as eventList; else noEvents">
+          <div *ngIf="eventList.length > 0; else noEvents">
+            <p><strong>Événements associés :</strong></p>
+            <ul>
+              <li *ngFor="let event of eventList">
+                {{ event.label }}
+                <button (click)="removeArtist(event.id)">Retirer</button>
+              </li>
+            </ul>
+          </div>
+        </ng-container>
+
+        <ng-template #noEvents>
+          <p>Aucun évènement associé à cet artiste.</p>
+        </ng-template>
+
+        <div class="add-event-section">
+          <label>Ajouter un évènement :</label>
+          <select [(ngModel)]="selectedEventId">
+            <option [ngValue]="null">-- Choisir un évènement --</option>
+
+            <option *ngFor="let event of allEvents" [value]="event.id">
+              {{ event.label }}
+            </option>
+          </select>
+
+          <button (click)="addEvent()" >Ajouter</button>
+        </div>
+      </div>
+
     </div>
-  </div>
 </div>
 
 <ng-template #noArtist>

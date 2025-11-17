@@ -126,7 +126,10 @@ export class EventDetail implements OnInit {
   }
 
   addArtist() {
-    if (!this.evenement || !this.selectedArtistId) return;
+    if (!this.evenement || !this.selectedArtistId) {
+      console.error("Evènement ou Artiste selectionné inconnu");
+      return;
+    }
 
     const alreadyExists = this.evenement.artists.some(
       artist => artist.id === this.selectedArtistId
@@ -153,7 +156,10 @@ export class EventDetail implements OnInit {
   }
 
   removeArtist(artistId: string) {
-    if (!this.evenement) return;
+    if (!this.evenement) {
+      console.error("Aucun evenement n'est trouvé")
+      return;
+    } 
 
     this.eventService.removeArtistFromEvent(this.evenement.id, artistId).subscribe({
       next: () => {
