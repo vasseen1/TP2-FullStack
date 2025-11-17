@@ -6,9 +6,27 @@
     <p><strong>Début :</strong> {{ event.startDate | date }}</p>
     <p><strong>Fin :</strong> {{ event.endDate | date }}</p>
     <p><strong>Nombre d'artistes associés :</strong> {{ event.artists.length }}</p>
+
+    <p><strong>Artistes :</strong></p>
+
+    <p *ngIf="event.artists.length === 0">
+      Aucun artiste associé
+    </p>
+
+    <p *ngIf="event.artists.length > 0">
+      <span *ngFor="let artist of event.artists | slice:0:2; let i = index">
+        {{ artist.label }}<span *ngIf="i === 0 && event.artists.length > 1"> / </span>
+      </span>
+
+      <span *ngIf="event.artists.length > 2">
+        + {{ event.artists.length - 2 }} artiste(s)
+      </span>
+    </p>
+
     <a [routerLink]="[event.id]" class="details-btn">Voir détails</a>
   </div>
 </div>
+
 
 <!-- Pagination -->
 <div class="pagination" *ngIf="totalPages > 1">
@@ -20,8 +38,6 @@
 </div>
 
 <!-- Bouton ajouter -->
-<a [routerLink]="['add']">
-  <div class="add-event">
-    <p>Ajouter un évènement</p>
-  </div>
-</a>
+<button class="add-events" (click)="navigateToAddEvent()">
+  Ajouter un évènement
+</button>

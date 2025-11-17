@@ -1,10 +1,35 @@
 <app-notification></app-notification>
 
 <div class="artists-container">
+
+  <!-- Barre de recherche -->
+  <div class="search-bar">
+    <input
+      type="text"
+      placeholder="Rechercher un artiste..."
+      [(ngModel)]="searchTerm"
+      (input)="filterArtists()"
+    />
+  </div>
+
   <div class="artist-card" *ngFor="let artist of paginatedArtists">
     <h3>{{ artist.label }}</h3>
+
+    <ng-container *ngIf="getEventsForArtist(artist.id) | async as events">
+      <p><strong>Évènements :</strong></p>
+
+      <!-- Afficher les 2 premiers -->
+      <p *ngFor="let ev of events | slice:0:2">{{ ev.label }}</p>
+
+      <!-- Afficher "+ X évènements" s'il en reste -->
+      <p *ngIf="events.length > 2">
+        + {{ events.length - 2 }} évènement(s)
+      </p>
+    </ng-container>
+
     <a [routerLink]="[artist.id]" class="details-btn">Voir détails</a>
   </div>
+
 </div>
 
 <!-- Pagination -->
@@ -15,8 +40,7 @@
 </div>
 
 <!-- Ajouter un artiste -->
-<a [routerLink]="['add']">
-  <div class="add-artist">
-    <p> Ajouter un artiste</p>
-  </div>
-</a>
+<button class="add-artist" (click)="navigateToAddArtist()">
+  Ajouter un artiste
+</button>
+

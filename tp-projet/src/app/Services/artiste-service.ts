@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, pipe } from 'rxjs';
 import { map } from 'rxjs';
+import { Events } from './events-service';
 
 
 export interface Artiste {
@@ -28,6 +29,10 @@ export class ArtisteService {
     return this.http.get<Artiste>(`${this.baseUrl}/artists/${artistId}`)
   }
 
+  getEvents(artistId: string): Observable<Events[]> {
+    return this.http.get<Events[]>(`${this.baseUrl}/artists/${artistId}/events`)
+  }
+
   createArtist(artist: Artiste): Observable<Artiste> {
     return this.http.post<Artiste>(`${this.baseUrl}/artists`, artist);
   }
@@ -38,5 +43,13 @@ export class ArtisteService {
 
   deleteArtist(artistId: string): Observable<Artiste> {
     return this.http.delete<Artiste>(`${this.baseUrl}/artists/${artistId}`)
+  }
+
+  addEventToArtiste(artistId: string, eventId: string) {
+    return this.http.post(`${this.baseUrl}/events/${eventId}/artists/${artistId}`,{});
+  }
+
+  removeEventFromArtiste(artistId: string, eventId: string) {
+    return this.http.delete(`${this.baseUrl}/events/${eventId}/artists/${artistId}`);
   }
 }

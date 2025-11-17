@@ -5,6 +5,8 @@ import { Artiste, ArtisteService } from '../Services/artiste-service';
 import { FormsModule } from '@angular/forms';
 import { NotificationComponent } from '../notifications/notifications';
 import { NotificationsService } from '../Services/notifications-service';
+import { Events, EventsService } from '../Services/events-service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-artiste-detail',
@@ -18,6 +20,9 @@ export class ArtistsDetail implements OnInit{
   // Déclaration des variables
   artiste?: Artiste;
   editedArtiste?: Artiste;
+  events?: Observable<Events[]>;
+  selectedEventId: string | null = null;
+  allEvents: Events[] = [];
 
   isDeleted = false;
 
@@ -26,7 +31,8 @@ export class ArtistsDetail implements OnInit{
     private artistService: ArtisteService,
     private router: Router,
     private route: ActivatedRoute,
-    private notificationService: NotificationsService
+    private notificationService: NotificationsService,
+    private eventService: EventsService
   ) {}
 
   ngOnInit(): void {
@@ -37,12 +43,16 @@ export class ArtistsDetail implements OnInit{
       next: (artiste: Artiste) => {
         this.artiste = artiste;
         this.editedArtiste = { ...artiste };
+        this.events = this.artistService.getEvents(this.artiste.id);
       },
       error : (err) => {
         console.error('Erreur lors de la récupération de l\'Artiste : ', err);
         this.notificationService.show('Impossible de charger l\'Artiste.', 'error');
       }
-    })
+    });
+    this.eventService.getAllEvents().subscribe((events) => {
+      this.allEvents = events;
+    });
   }
 
   saveArtist() {
@@ -113,6 +123,65 @@ export class ArtistsDetail implements OnInit{
         this.isDeleted = false;
       }
     })
+  }
+  
+  addEvent() {
+    if (!this.artiste) {
+      this.notificationService.show("Aucun artiste trouvé", "error");
+      return;
+    }
+
+    this.events?.subscribe(eventList => {
+
+      const alreadyExists = eventList.some(ev => ev.id === this.selectedEventId);
+
+      if (alreadyExists) {
+        this.notificationService.show("Cet évènement est déjà associé à l'artiste", "error");
+        return;
+      }
+
+      if (!this.selectedEventId) {
+        this.notificationService.show("Veuillez sélectionner un évènement", "error");
+        return;
+      }
+
+      // 👉 Sinon, on peut ajouter !
+      this.artistService.addEventToArtiste(this.artiste!.id, this.selectedEventId).subscribe({
+        next: () => {
+          this.events = this.artistService.getEvents(this.artiste!.id);
+          this.notificationService.show("Évènement ajouté avec succès", "success");
+          this.selectedEventId = null;
+        },
+        error: () => {
+          this.notificationService.show("Erreur lors de l'ajout de l'évènement", "error");
+        }
+      });
+
+    });
+  }
+
+
+
+  removeArtist(eventId: string) {
+
+    if (!this.artiste) {
+      console.error("Aucun artiste trouvé");
+      return;
+    }
+
+    this.artistService.removeEventFromArtiste(this.artiste.id, eventId).subscribe({
+      next: () => {
+        if (!this.artiste) {
+          console.error("Aucun artiste trouvé");
+          return;
+        }
+        this.events = this.artistService.getEvents(this.artiste.id);
+        this.notificationService.show("Evenement retiré avec succès", "success");
+      },
+      error: () => {
+        this.notificationService.show("Erreur lors du retrait", "error");
+      }
+    });
   }
 
 }

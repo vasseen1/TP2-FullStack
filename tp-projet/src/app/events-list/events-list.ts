@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { Events, EventsService } from '../Services/events-service';
 import { NotificationComponent } from '../notifications/notifications';
 
@@ -16,10 +16,13 @@ export class EventsList implements OnInit {
   paginatedEvents: Events[] = [];
 
   currentPage: number = 1;
-  itemsPerPage: number = 4;
+  itemsPerPage: number = 10;
   totalPages: number = 1;
 
-  constructor(private eventsService: EventsService) {}
+  constructor(
+    private eventsService: EventsService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.eventsService.getAllEvents().subscribe((events) => {
@@ -27,6 +30,11 @@ export class EventsList implements OnInit {
       this.totalPages = Math.ceil(this.events.length / this.itemsPerPage);
       this.updatePaginatedEvents();
     });
+  }
+
+  
+  navigateToAddEvent(): void {
+    this.router.navigate(['/events/add']);
   }
 
   updatePaginatedEvents(): void {

@@ -7,6 +7,8 @@
     <p><strong>Label :</strong> {{ evenement.label }}</p>
     <p><strong>Début :</strong> {{ evenement.startDate | date }}</p>
     <p><strong>Fin :</strong> {{ evenement.endDate | date }}</p>
+    <p><strong>Artistes: </strong></p>
+    <li *ngFor="let artist of evenement.artists">{{artist.label}}</li>
 
     <button (click)="supprimerEvent()" class="supprimer" [disabled]="isDeleted">Supprimer</button>
   </div>
@@ -27,7 +29,42 @@
     <div class="edit-actions">
       <button (click)="saveEvent()">Sauvegarder</button>
     </div>
+
+    <div class="event-artists">
+      <h2>Gérer les artistes</h2>
+
+      <!-- Liste des artistes de l'événement -->
+      <div *ngIf="evenement?.artists?.length; else noArtists">
+        <p><strong>Artistes associés :</strong></p>
+        <ul>
+          <li *ngFor="let artist of evenement.artists">
+            {{ artist.label }}
+            <button (click)="removeArtist(artist.id)">Retirer</button>
+          </li>
+        </ul>
+      </div>
+
+      <ng-template #noArtists>
+        <p>Aucun artiste associé à cet évènement.</p>
+      </ng-template>
+
+      <!-- Ajouter un artiste -->
+      <div class="add-artist-section">
+        <label>Ajouter un artiste :</label>
+        <select [(ngModel)]="selectedArtistId">
+          <option [ngValue]="null">-- Choisir un artiste --</option>
+
+          <option *ngFor="let artist of allArtists" [value]="artist.id">
+            {{ artist.label }}
+          </option>
+        </select>
+
+        <button (click)="addArtist()">Ajouter</button>
+      </div>
+    </div>
   </div>
+    
+
 </div>
 
 <ng-template #noEvent>

@@ -1,3 +1,4 @@
+/* Conteneur général */
 .event-container {
   display: flex;
   justify-content: space-between;
@@ -6,6 +7,7 @@
   padding: 20px;
 }
 
+/* Cartes de gauche et droite */
 .event-details,
 .event-edit {
   flex: 1;
@@ -21,30 +23,30 @@
   color: #333;
 }
 
+/* Inputs */
 .event-edit label {
   display: block;
   margin-top: 10px;
   font-weight: bold;
 }
 
-.event-edit input {
+.event-edit input,
+.event-edit select {
   width: 100%;
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 8px;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
   transition: border-color 0.3s ease;
 }
 
-.event-edit input:focus {
+.event-edit input:focus,
+.event-edit select:focus {
   border-color: #007bff;
   outline: none;
 }
 
-.edit-actions {
-  margin-top: 10px;
-}
-
+/* Boutons */
 button {
   background-color: #007bff;
   color: white;
@@ -70,4 +72,62 @@ button:hover {
 .supprimer[disabled] {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+/* --- SECTION ARTISTES --- */
+
+.event-artists {
+  margin-top: 25px;
+  padding: 15px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.event-artists h2 {
+  margin-bottom: 10px;
+  font-size: 1.4rem;
+  color: #444;
+}
+
+/* Liste des artistes */
+.event-artists ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 10px 0;
+}
+
+.event-artists li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f3f3f3;
+  padding: 8px 12px;
+  border-radius: 8px;
+  margin-bottom: 6px;
+}
+
+/* Bouton retirer */
+.event-artists li button {
+  background-color: #dc3545;
+}
+
+.event-artists li button:hover {
+  background-color: #b02a37;
+}
+
+/* Section ajouter */
+.add-artist-section {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.add-artist-section select {
+  flex: 1;
+}
+
+.add-artist-section button {
+  white-space: nowrap;
 }
