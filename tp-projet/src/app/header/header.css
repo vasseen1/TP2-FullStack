@@ -2,6 +2,11 @@ header {
   background-color: #1e1e1e; 
   padding: 20px 0;
   text-align: center; 
+  position: fixed;  /* le fixe en haut */
+  top: 0;           /* à partir du haut de la fenêtre */
+  left: 0;          /* à partir du bord gauche */
+  width: 100%;      /* pour qu'il prenne toute la largeur */
+  z-index: 1000;    /* pour qu'il reste au-dessus des autres éléments */
 }
 
 header div {

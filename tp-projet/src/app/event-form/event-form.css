@@ -1,11 +1,13 @@
 /* --- Conteneur principal --- */
 .ajouter {
   max-width: 600px;
+  width: 100%;
   margin: 80px auto 40px;
   background: #ffffff;
   padding: 25px 30px;
   border-radius: 12px;
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
 }
 
 .ajouter h2 {
@@ -38,6 +40,7 @@
   border: 1px solid #ccc;
   font-size: 1rem;
   transition: 0.3s ease border-color, 0.3s ease box-shadow;
+  box-sizing: border-box;
 }
 
 .ajouter input:focus {
@@ -58,6 +61,7 @@
   border-radius: 8px;
   cursor: pointer;
   transition: 0.3s ease background-color, 0.2s ease transform;
+  box-sizing: border-box;
 }
 
 .submit-btn:hover {
@@ -72,12 +76,26 @@
 }
 
 /* --- Responsive --- */
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   .ajouter {
+    width: calc(100% - 30px); /* Marges latérales */
+    margin: 60px 15px 40px; /* Ajout de marges latérales */
     padding: 20px;
   }
 
   .ajouter h2 {
     font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .ajouter {
+    width: calc(100% - 20px); /* Marges réduites */
+    margin: 40px 10px 20px; /* Marges réduites */
+    padding: 15px;
+  }
+
+  .ajouter h2 {
+    font-size: 1.3rem;
   }
 }

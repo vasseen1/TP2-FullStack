@@ -6,6 +6,9 @@
   gap: 40px;
   padding: 20px;
   flex-wrap: wrap;
+  max-width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 /* Cartes de gauche et droite */
@@ -17,6 +20,8 @@
   border-radius: 12px;
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
   min-width: 300px; 
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .artist-details h2,
@@ -223,18 +228,28 @@ ng-template #noArtist p {
 
 /* Responsivité : Améliorer l'affichage sur les petits écrans */
 @media (max-width: 768px) {
-  .artist-container {
+  .event-container {
     flex-direction: column;
     align-items: center;
+    gap: 20px; /* Réduction du gap */
+    padding: 10px; /* Réduction du padding */
   }
 
-  .artist-details,
-  .artist-edit {
+  .event-details,
+  .event-edit {
     width: 100%;
     margin-bottom: 20px;
+    min-width: unset; /* Suppression du min-width */
   }
 
-  .artist-events ul {
+  .event-artists ul {
     padding-left: 0;
+  }
+  
+  /* Ajustement pour les inputs et selects */
+  .event-edit input,
+  .event-edit select,
+  .add-artist-section select {
+    max-width: 100%;
   }
 }

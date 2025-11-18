@@ -1,5 +1,9 @@
 html, body {
     margin: 0;
     padding: 0;
-    height: 100%;
+    max-height: 100%;
+}
+
+body {
+  margin-top: 80px; /* un peu plus que la hauteur du header pour être sûr */
 }
