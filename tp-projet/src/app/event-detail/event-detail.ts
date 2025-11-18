@@ -55,7 +55,7 @@ export class EventDetail implements OnInit {
 
   saveEvent() {
     // Si l'évènement modifié n'est pas trouvé, on informe.
-    if (!this.editedEvent) {
+    if (!this.editedEvent || !this.evenement) {
       this.notificationService.show("Aucun évènement chargé !", 'error');
       return;
     }
@@ -83,10 +83,12 @@ export class EventDetail implements OnInit {
       return;
     }
 
-    // SI la nouvelle startDate est inférieure à la date du jour, on refuse.
-    if (new Date(this.editedEvent.startDate) < today) {
-      this.notificationService.show('La date de début doit être égale ou après la date du jour', 'error');
-      return;
+    if (new Date(this.editedEvent.startDate).getTime() !== new Date(this.evenement.startDate).getTime()) {
+      // SI la nouvelle startDate est inférieure à la date du jour, on refuse.
+      if (new Date(this.editedEvent.startDate) < today) {
+        this.notificationService.show('La date de début doit être égale ou après la date du jour', 'error');
+        return;
+      }
     }
 
     // Si la startDate édité est supérieure à la EndDate, on refuse. 

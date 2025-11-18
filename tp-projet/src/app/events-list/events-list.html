@@ -16,7 +16,7 @@
 
     <p *ngIf="event.artists.length > 0">
       <span *ngFor="let artist of event.artists | slice:0:2; let i = index">
-        {{ artist.label }}<span *ngIf="i === 0 && event.artists.length > 1"> / </span>
+        {{ artist.label }}<span *ngIf="i === 0 && event.artists.length > 1"> , </span>
       </span>
 
       <span *ngIf="event.artists.length > 2">
