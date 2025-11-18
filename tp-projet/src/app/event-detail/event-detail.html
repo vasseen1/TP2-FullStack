@@ -1,7 +1,7 @@
 <app-notification></app-notification>
 
 <div *ngIf="evenement; else noEvent" class="event-container">
-  <!-- Partie gauche : affichage -->
+  <!-- Partie gauche : informations -->
   <div class="event-details">
     <h2>Détails de l'évènement</h2>
     <p><strong>Label :</strong> {{ evenement.label }}</p>
@@ -67,6 +67,9 @@
 
 </div>
 
+<!-- S'il ny a pas d'events, on affiche une page d'erreur -->
 <ng-template #noEvent>
-  <p>Il n'y a pas d'évènement disponible à cet identifiant</p>
+  <div>
+      <p>Il n'y a pas d'évènement disponible à cet identifiant</p>
+  </div>
 </ng-template>

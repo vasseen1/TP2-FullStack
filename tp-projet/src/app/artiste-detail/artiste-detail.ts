@@ -126,6 +126,7 @@ export class ArtistsDetail implements OnInit{
   }
   
   addEvent() {
+    // Si l'artiste n'est pas trouvé, on informe.
     if (!this.artiste) {
       this.notificationService.show("Aucun artiste trouvé", "error");
       return;
@@ -134,18 +135,19 @@ export class ArtistsDetail implements OnInit{
     this.events?.subscribe(eventList => {
 
       const alreadyExists = eventList.some(ev => ev.id === this.selectedEventId);
-
+      // Si l'évènement est déjà présent, on informe l'utilisateur
       if (alreadyExists) {
         this.notificationService.show("Cet évènement est déjà associé à l'artiste", "error");
         return;
       }
 
+      // On vérifie si l'évènement est bien selectionné.
       if (!this.selectedEventId) {
         this.notificationService.show("Veuillez sélectionner un évènement", "error");
         return;
       }
 
-      // 👉 Sinon, on peut ajouter !
+      // Sinon, on peut ajouter !
       this.artistService.addEventToArtiste(this.artiste!.id, this.selectedEventId).subscribe({
         next: () => {
           this.events = this.artistService.getEvents(this.artiste!.id);
@@ -164,6 +166,7 @@ export class ArtistsDetail implements OnInit{
 
   removeArtist(eventId: string) {
 
+    // Si l'artiste n'est pas trouvé, on informe
     if (!this.artiste) {
       console.error("Aucun artiste trouvé");
       return;
@@ -171,10 +174,12 @@ export class ArtistsDetail implements OnInit{
 
     this.artistService.removeEventFromArtiste(this.artiste.id, eventId).subscribe({
       next: () => {
+        // Si l'artiste n'est pas trouvé, on informe
         if (!this.artiste) {
           console.error("Aucun artiste trouvé");
           return;
         }
+        // On met à jour la liste des évènements et on informe que l'évènement est dissocié de l'artiste.
         this.events = this.artistService.getEvents(this.artiste.id);
         this.notificationService.show("Evenement retiré avec succès", "success");
       },

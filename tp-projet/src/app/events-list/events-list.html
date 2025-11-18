@@ -7,6 +7,7 @@
     <p><strong>Fin :</strong> {{ event.endDate | date }}</p>
     <p><strong>Nombre d'artistes associés :</strong> {{ event.artists.length }}</p>
 
+    <!-- On affiche les 2 premiers artistes présent à un évènement -->
     <p><strong>Artistes :</strong></p>
 
     <p *ngIf="event.artists.length === 0">

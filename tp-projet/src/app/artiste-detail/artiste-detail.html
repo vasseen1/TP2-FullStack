@@ -1,7 +1,7 @@
 <app-notification></app-notification>
 
 <div *ngIf="artiste; else noArtist" class="artist-container">
-  <!-- conteneur gauche, infos de l'artiste -->
+  <!-- Partie gauche : informations -->
     <div class="artist-details">
         <h2>Détails de l'artiste</h2>
         <p><strong>Label : </strong>{{artiste.label}}</p>
@@ -16,8 +16,7 @@
         </button>
     </div>
     
-<!-- conteneur droit, modifications de l'artiste -->
-<!-- L'artiste est mis à jour lorsqu'on appuie sur valider -->
+  <!-- Partie droite : édition -->
     <div class="artist-edit" *ngIf="editedArtiste">
       <h2>Modifier l'artiste</h2>
 
@@ -45,7 +44,7 @@
         <ng-template #noEvents>
           <p>Aucun évènement associé à cet artiste.</p>
         </ng-template>
-
+        <!-- Ajouter un évènement -->
         <div class="add-event-section">
           <label>Ajouter un évènement :</label>
           <select [(ngModel)]="selectedEventId">

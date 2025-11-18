@@ -1,3 +1,5 @@
+<!-- Afficher les notifications (messages d'erreur, de création,...) -->
+
 <div *ngIf="notificationService.message$ | async as notif"
          [ngClass]="{
            'notif-success': notif.type === 'success',

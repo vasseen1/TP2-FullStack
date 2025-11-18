@@ -21,7 +21,7 @@
       <!-- Afficher les 2 premiers -->
       <p *ngFor="let ev of events | slice:0:2">{{ ev.label }}</p>
 
-      <!-- Afficher "+ X évènements" s'il en reste -->
+      <!-- Afficher "+ X évènements" s'il y en a plus -->
       <p *ngIf="events.length > 2">
         + {{ events.length - 2 }} évènement(s)
       </p>
