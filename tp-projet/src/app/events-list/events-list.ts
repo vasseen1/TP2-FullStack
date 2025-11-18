@@ -18,7 +18,7 @@ export class EventsList implements OnInit {
 
   // Déclaration des variables de la pagination.
   currentPage: number = 1;
-  itemsPerPage: number = 10;
+  itemsPerPage: number = 4;
   totalPages: number = 1;
 
   constructor(

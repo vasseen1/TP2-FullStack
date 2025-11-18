@@ -6,9 +6,14 @@
         <h2>Détails de l'artiste</h2>
         <p><strong>Label : </strong>{{artiste.label}}</p>
         <p><strong>Evenements :</strong></p>
-        <ng-container *ngIf="events | async as events">
-          <p *ngFor="let event of events">{{ event.label }}</p>
-        </ng-container>
+        <ul class="events-infos-list">
+          <li *ngFor="let event of events | async" class="event-chip" >
+            {{ event.label }}
+          </li>
+          <li *ngIf="(events | async)?.length === 0" class="no-events">
+            Aucun évènement associé
+          </li>
+        </ul>
 
 
         <button class="supprimer" (click)="supprimerArtist()" [disabled]="isDeleted">
@@ -26,7 +31,7 @@
       <div class="edit-actions">
         <button (click)="saveArtist()">Sauvegarder</button>
       </div>
-      <div>
+      <div class="artist-events">
         <h2>Gérer les évènements :</h2>
 
         <ng-container *ngIf="events | async as eventList; else noEvents">
@@ -64,9 +69,9 @@
 
 <!-- Si l'artiste est inexistant -->
 <ng-template #noArtist>
-  <div>
-    <p>Il n'y a pas d'artiste dispo à cet identifiant</p>
-  </div>
+  <p class="no-artist-message">
+    Il n'y a pas d'évènement disponible à cet identifiant
+  </p>
 </ng-template>
 
 

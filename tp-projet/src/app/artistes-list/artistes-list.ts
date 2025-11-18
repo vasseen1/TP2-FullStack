@@ -26,7 +26,7 @@ export class ArtistesList implements OnInit {
 
   // On déclare les variables pour la pagination.
   currentPage: number = 1;
-  itemsPerPage: number = 10;
+  itemsPerPage: number = 4;
   totalPages: number = 1;
 
   constructor(

@@ -1,22 +1,28 @@
 <app-notification></app-notification>
 
-<div class="artists-container">
+<!-- Barre de recherche toujours tout en haut -->
+<div class="search-bar">
+  <input
+    type="text"
+    placeholder="Rechercher un artiste..."
+    [(ngModel)]="searchTerm"
+    (input)="filterArtists()"
+  />
+</div>
 
-  <!-- Barre de recherche -->
-  <div class="search-bar">
-    <input
-      type="text"
-      placeholder="Rechercher un artiste..."
-      [(ngModel)]="searchTerm"
-      (input)="filterArtists()"
-    />
-  </div>
+<!-- Conteneur artistes -->
+<div class="artists-container">
 
   <div class="artist-card" *ngFor="let artist of paginatedArtists">
     <h3>{{ artist.label }}</h3>
 
     <ng-container *ngIf="getEventsForArtist(artist.id) | async as events">
       <p><strong>Évènements :</strong></p>
+
+      <!-- Aucun évènement -->
+      <p *ngIf="events.length === 0">
+        Aucun évènement associé
+      </p>
 
       <!-- Afficher les 2 premiers -->
       <p *ngFor="let ev of events | slice:0:2">{{ ev.label }}</p>
@@ -27,6 +33,7 @@
       </p>
     </ng-container>
 
+
     <a [routerLink]="[artist.id]" class="details-btn">Voir détails</a>
   </div>
 
@@ -34,13 +41,12 @@
 
 <!-- Pagination -->
 <div class="pagination" *ngIf="totalPages > 1">
-  <button (click)="previousPage()" [disabled]="currentPage === 1">◀ Précédent</button>
+  <button (click)="previousPage()" [disabled]="currentPage === 1">Précédent</button>
   <span>Page {{ currentPage }} / {{ totalPages }}</span>
-  <button (click)="nextPage()" [disabled]="currentPage === totalPages">Suivant ▶</button>
+  <button (click)="nextPage()" [disabled]="currentPage === totalPages">Suivant</button>
 </div>
 
 <!-- Ajouter un artiste -->
 <button class="add-artist" (click)="navigateToAddArtist()">
   Ajouter un artiste
 </button>
-
