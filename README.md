@@ -2,16 +2,6 @@
 
 Application web complète de gestion d'événements et d'artistes, développée avec Spring Boot (backend) et Angular (frontend), déployée avec Docker.
 
-## 📋 Table des matières
-
-- [Technologies utilisées](#technologies-utilisées)
-- [Prérequis](#prérequis)
-- [Architecture du projet](#architecture-du-projet)
-- [Installation et lancement](#installation-et-lancement)
-- [Utilisation](#utilisation)
-- [Structure du projet](#structure-du-projet)
-- [API Backend](#api-backend)
-
 ## 🛠 Technologies utilisées
 
 ### Backend
@@ -111,20 +101,6 @@ L'application sera accessible sur [http://localhost:4200](http://localhost:4200)
 
 ## 📁 Structure du projet
 
-### Backend
-```
-src/
-├── main/
-│   ├── java/
-│   │   └── com/example/event/
-│   │       ├── controller/      # Contrôleurs REST
-│   │       ├── model/           # Entités JPA
-│   │       ├── repository/      # Repositories
-│   │       └── service/         # Services métier
-│   └── resources/
-│       └── application.properties
-```
-
 ### Frontend
 ```
 tp-projet/src/
@@ -153,6 +129,7 @@ tp-projet/src/
 - **POST** `/artists` - Créer un artiste
 - **PUT** `/artists/{id}` - Modifier un artiste
 - **DELETE** `/artists/{id}` - Supprimer un artiste
+- **GET** `/artists/{id}/events` - Récupère la liste des évènements liés à un artiste
 
 ### Associations
 
@@ -188,7 +165,7 @@ Ce projet est développé dans le cadre d'un TP académique.
 
 ## 👥 Auteurs
 
-Projet réalisé par [Votre Nom]
+Projet réalisé en collaboration par **VASSE Enzo** et par  **BEN-HAMMOU Baddre-eddine**
 
 ---
 
