@@ -1,0 +1,48 @@
+version: '3.8'
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/events"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 30s
+    
+  frontend:
+    build:
+      context: ./tp-projet
+      dockerfile: Dockerfile
+    ports:
+      - "4200:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - app-network
+      
+  init-data:
+    image: curlimages/curl:8.5.0
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - app-network
+    volumes:
+      - ./insert.sh:/insert.sh
+    entrypoint: [
+      "sh", "-c",
+      "echo '🚀 Backend prêt, insertion des données...' && \
+      sh /insert.sh && \
+      echo '🎉 Données insérées !'"
+    ]
+    
+networks:
+  app-network:
+    driver: bridge
